@@ -47,9 +47,14 @@ export class EchartRender implements OnChanges, OnInit {
           type: 'pictorialBar',
           label: labelSetting,
           symbolRepeat: true,
-          barGap: '5px',
+          barGap: '14px',
+          barCategoryGap: '40%',
           symbolSize: ['6.21', '16'],
           data: [
+            {
+              value: this.chartPictorialBarData.get(name),
+              symbol: pathSymbols.car,
+            },
             {
               value: this.chartPictorialBarData.get(name),
               symbol: pathSymbols.car,
@@ -133,12 +138,12 @@ export class EchartRender implements OnChanges, OnInit {
         right: 80,
       },
       yAxis: {
-        data: ['治愈'],
+        data: ['治愈', '未愈'],
         inverse: true,
         axisLine: { show: false },
         axisTick: { show: false },
         axisLabel: {
-          margin: 20,
+          margin: 14,
           fontSize: 14,
         },
         axisPointer: {

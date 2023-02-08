@@ -1,0 +1,43 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 16px;
+}
+aside.left {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 428px 1fr;
+  grid-template-rows: 538px 404px 464px 312px;
+  gap: 16px;
+}
+
+.epbox {
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(77, 77, 77, 0.2);
+  border-radius: 8px;
+  padding: 16px 20px 24px;
+  display: grid;
+  row-gap: 16px;
+  grid-template-rows: max-content 1fr;
+  header {
+    font-family: 'Source Han Sans CN';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+  }
+  bc-echart-render {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.explore-summary,
+.diagnose-top {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}

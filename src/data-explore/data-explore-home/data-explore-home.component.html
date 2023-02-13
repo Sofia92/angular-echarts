@@ -1,13 +1,33 @@
 <aside class="left">
   <div class="epbox explore-summary">
-    <header>具体结局分布情况</header>
+    <header>概览</header>
+
+    <div class="report-person-panel">
+      <span>病历数</span>
+      <span>患者人数</span>
+      <strong>{{ chartData.summary.data.get('病历').value }}</strong>
+      <strong>{{ chartData.summary.data.get('患者').value }}</strong>
+      <bc-echart-render [chart]="chartData.summary"></bc-echart-render>
+    </div>
+
+    <div class="summary-panel">
+      <header>性别</header>
+      <bc-echart-render [chart]="chartData.sex"></bc-echart-render>
+    </div>
+    <div class="summary-panel">
+      <header>年龄</header>
+      <bc-echart-render [chart]="chartData.age"></bc-echart-render>
+    </div>
+  </div>
+  <div class="epbox treat-top">
+    <header>诊断</header>
     <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
   </div>
-  <div class="epbox diagnose-top">
+  <div class="epbox treat-top">
     <header>诊断TOP10</header>
     <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
   </div>
-  <div class="epbox treat-summary">
+  <div class="epbox treat-top">
     <header>治疗情况</header>
     <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
   </div>
@@ -27,3 +47,37 @@
   </div>
 </aside>
 <aside></aside>
+
+<!-- <aside class="left">
+  <div class="epbox explore-summary">
+    <header>具体结局分布情况</header>
+    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+  </div>
+  <div class="epbox diagnose-top">
+    <header>诊断TOP10</header>
+    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+  </div>
+  <div class="epbox treat-summary">
+    <header>治疗情况</header>
+    <bc-echart-render
+      [chartPictorialBarData]="chartPictorialBarData"
+    ></bc-echart-render>
+  </div>
+  <div class="epbox treat-top">
+    <header>治疗情况TOP10</header>
+    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+  </div>
+  <div class="epbox result-summary">
+    <header>结局情况</header>
+    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+  </div>
+  <div class="epbox result-top">
+    <header>具体结局分布情况</header>
+    <bc-echart-render
+      [chartPictorialBarData]="chartPictorialBarData"
+    ></bc-echart-render>
+  </div>
+</aside>
+<aside>
+
+</aside> -->

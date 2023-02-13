@@ -41,3 +41,26 @@ aside.left {
   grid-column-start: 1;
   grid-column-end: 3;
 }
+
+.explore-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  > header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+
+  .report-person-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 24px 24px 1fr;
+    > bc-echart-render {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
+  .summary-panel {
+    display: grid;
+    grid-template-rows: 24px 1fr;
+  }
+}

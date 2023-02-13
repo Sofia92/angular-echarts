@@ -42,6 +42,9 @@
     "itemStyle": {
       "borderWidth": "0",
       "borderColor": "#ccc"
+    },
+    "label": {
+      "show": false
     }
   },
   "scatter": {

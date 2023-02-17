@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { EchartRender } from '../shared/echart-render.component';
-import { DataExploreHomeComponent } from './data-explore-home.component';
+import { DataInsightHomeComponent } from './data-insight-home.component';
 
-const routes: Routes = [{ path: '', component: DataExploreHomeComponent }];
+const routes: Routes = [{ path: '', component: DataInsightHomeComponent }];
 
 @NgModule({
   imports: [
@@ -14,6 +14,6 @@ const routes: Routes = [{ path: '', component: DataExploreHomeComponent }];
     RouterModule.forChild(routes),
     EchartRender,
   ],
-  declarations: [DataExploreHomeComponent],
+  declarations: [DataInsightHomeComponent],
 })
-export class DataExploreHomeModule {}
+export class DataInsightHomeModule {}

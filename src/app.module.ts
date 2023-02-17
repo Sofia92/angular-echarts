@@ -8,10 +8,11 @@ import { AppComponent } from './app.componnent';
 import { BrowserModule } from '@angular/platform-browser';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'data-insight', pathMatch: 'full' },
   {
-    path: '',
+    path: 'data-insight',
     loadChildren: () =>
-      import('./data-explore').then((mod) => mod.DataExploreHomeModule),
+      import('./data-insight').then((mod) => mod.DataInsightRootModule),
   },
 ];
 

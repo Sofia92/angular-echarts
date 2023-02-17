@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'data-explore-home',
-  templateUrl: './data-explore-home.component.html',
-  styleUrls: ['./data-explore-home.component.less'],
+  selector: 'data-insight-home',
+  templateUrl: './data-insight-home.component.html',
+  styleUrls: ['./data-insight-home.component.less'],
 })
-export class DataExploreHomeComponent {
+export class DataInsightHomeComponent {
   pieData = [
     { value: 1048, name: '对比组1' },
     { value: 735, name: '对比组2' },
@@ -65,15 +65,15 @@ export class DataExploreHomeComponent {
             { value: 56, name: '>63' },
           ],
         },
-        // {
-        //   group: '对比组2',
-        //   groupData: [
-        //     { value: 324, name: '0-8' },
-        //     { value: 333, name: '18-45' },
-        //     { value: 112, name: '45-63' },
-        //     { value: 96, name: '>63' },
-        //   ],
-        // },
+        {
+          group: '对比组2',
+          groupData: [
+            { value: 324, name: '0-8' },
+            { value: 112, name: '18-45' },
+            { value: 333, name: '45-63' },
+            { value: 96, name: '>63' },
+          ],
+        },
       ],
     },
   };

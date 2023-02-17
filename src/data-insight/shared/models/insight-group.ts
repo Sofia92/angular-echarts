@@ -41,7 +41,7 @@ export class InsightGroup {
           const {
             result: { people: currTotal },
           } = c;
-          const pv = currTotal / total;
+          const pv = (currTotal / total) * 100;
           c.setPercentageValue(pv);
         });
     }

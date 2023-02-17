@@ -1,1 +1,9 @@
-<data-insight-condition-group></data-insight-condition-group>
+<data-insight-condition-group
+  *ngFor="let group of conditionGroups"
+  [class.first]="group.indexAttr.first"
+  [class.second]="group.indexAttr.second"
+  [class.third]="group.indexAttr.third"
+  [class.selected]="currentGroup && currentGroup === group"
+  (click)="setSelectedGroup(group)"
+  [conditionGroup]="group"
+></data-insight-condition-group>

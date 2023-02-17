@@ -1,0 +1,113 @@
+$primary-6: #3664d9;
+$primary-4: #8eb6ff;
+
+$cyan-6: #0dc4cc;
+$second-color-hover: #c4f6f3;
+
+$orange-6: #fd8701;
+$orange-3: #ffce7a;
+
+:host(data-insight-condition-group) {
+  display: grid;
+  grid-template-rows: 60px 1fr;
+  background: #f0f2f5;
+  border: 5px solid #f0f2f5;
+  box-shadow: 0px 2px 6px rgba(77, 77, 77, 0.2);
+  border-radius: 6px;
+  box-sizing: content-box;
+  cursor: pointer;
+  &:hover {
+    border-color: #b8d4ff;
+  }
+  &.selected {
+    border-color: $primary-6;
+    box-shadow: 0px 0px 0px 5px #b8d4ff, 0px 12px 36px rgba(77, 77, 77, 0.2);
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+
+::ng-deep .first {
+  &.selected {
+    .condition-item .condition-result {
+      background-color: $primary-6;
+      color: #fff;
+    }
+  }
+}
+::ng-deep .second {
+  &.selected {
+    .condition-item .condition-result {
+      background-color: $cyan-6;
+      color: #fff;
+    }
+  }
+}
+::ng-deep .third {
+  &.selected {
+    .condition-item .condition-result {
+      background-color: $orange-6;
+      color: #fff;
+    }
+  }
+}
+
+.condition-group {
+  padding: 0 20px 20px;
+  display: grid;
+  grid-auto-rows: minmax(min-content, max-content);
+  row-gap: 32px;
+}
+.condition-item {
+  &:hover {
+    box-shadow: -6px 12px 36px rgba(77, 77, 77, 0.2);
+  }
+  &.selected {
+    box-shadow: -6px 12px 36px rgba(77, 77, 77, 0.2);
+  }
+}
+
+:host(data-insight-condition-item) {
+  background: rgba(240, 242, 245, 0.5);
+  border-radius: 6px;
+  position: relative;
+  border: 1px solid #d0d1d2;
+  padding: 8px;
+  display: grid;
+  row-gap: 12px;
+  &:not(:last-child)::after {
+    content: '';
+    background: #adadad;
+    width: 1px;
+    height: 32px;
+    width: 1px;
+    height: 32px;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    gap: 12px;
+    width: 304px;
+    height: 28px;
+    background-color: #ffffff;
+    border-radius: 4px;
+  }
+  .expression {
+    font-family: 'Source Han Sans CN';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #4d4d4d;
+  }
+}

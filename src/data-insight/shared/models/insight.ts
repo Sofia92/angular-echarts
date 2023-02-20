@@ -16,14 +16,21 @@ export class Insight {
       (c, i) => new InsightGroup(c, i)
     );
   }
+  public createGroup() {
+    const group = new InsightGroup({ name: '组1' }, 0);
+    this.conditionGroups = [group];
+    this.setCurrentGroup(group);
+  }
 
   public setCurrentGroup(group: InsightGroup) {
-    this.currentGroup?.clearActiveStyles();
-    this.setCurrentCondition(
-      group,
-      group.conditions[group.conditions.length - 1]
-    );
-    this.currentGroup.setActiveStyles();
+    if (group) {
+      this.currentGroup?.clearActiveStyles();
+      this.setCurrentCondition(
+        group,
+        group.conditions[group.conditions.length - 1]
+      );
+      this.currentGroup.setActiveStyles();
+    }
   }
 
   public setCurrentCondition(group: InsightGroup, condition: InsightItem) {

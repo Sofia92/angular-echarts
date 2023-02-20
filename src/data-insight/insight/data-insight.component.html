@@ -10,45 +10,58 @@
     </div>
     <span class="diff">diff</span>
   </header>
-  <section class="group-meta">
-    <div class="group-wrap">
-      <span
-        *ngFor="let group of insight?.conditionGroups"
-        class="group-header"
+
+  <ng-container *ngIf="!insight.conditionGroups.length; else groupTPL">
+    <div>
+      <button (click)="newGroup()">新增组</button>
+      <button>我的收藏</button>
+      <p>
+        <small>不知道如何使用？</small>
+        <a>查看帮助</a>
+      </p>
+    </div>
+  </ng-container>
+  <ng-template #groupTPL>
+    <section class="group-meta">
+      <div class="group-wrap">
+        <span
+          *ngFor="let group of insight?.conditionGroups"
+          class="group-header"
+          [class.selected]="
+            insight.currentGroup && insight.currentGroup === group
+          "
+          (click)="setSelectedGroup(group)"
+        >
+          <i class="icon">ic</i>
+          <i class="name">{{ group.name }}</i>
+          <i
+            class="edit"
+            *ngIf="insight.currentGroup && insight.currentGroup === group"
+            >edit</i
+          ></span
+        >
+      </div>
+      <div class="action">
+        <span class="group-copy" (click)="insightcopy()">copy</span>
+        <span class="group-like" (click)="insightlike()">like</span>
+        <span class="group-del" (click)="insightdel()">del</span>
+      </div>
+    </section>
+    <section class="group-content">
+      <data-insight-condition-item
+        *ngFor="let condition of insight.currentGroup?.conditions"
+        class="condition-item"
+        [attr.theme]="insight.currentGroup.theme"
         [class.selected]="
-          insight.currentGroup && insight.currentGroup === group
+          insight.currentCondition && insight.currentCondition === condition
         "
-        (click)="setSelectedGroup(group)"
-      >
-        <i class="icon">ic</i>
-        <i class="name">{{ group.name }}</i>
-        <i
-          class="edit"
-          *ngIf="insight.currentGroup && insight.currentGroup === group"
-          >edit</i
-        ></span
-      >
-    </div>
-    <div class="action">
-      <span class="group-copy" (click)="insightcopy()">copy</span>
-      <span class="group-like" (click)="insightlike()">like</span>
-      <span class="group-del" (click)="insightdel()">del</span>
-    </div>
-  </section>
-  <section class="group-content">
-    <data-insight-condition-item
-      *ngFor="let condition of insight.currentGroup.conditions"
-      class="condition-item"
-      [attr.theme]="insight.currentGroup.theme"
-      [class.selected]="
-        insight.currentCondition && insight.currentCondition === condition
-      "
-      [condition]="condition"
-      [result]="condition.result"
-      (click)="setSelectedCondition(condition)"
-    ></data-insight-condition-item>
-    <button>添加条件</button>
-  </section>
+        [condition]="condition"
+        [result]="condition.result"
+        (click)="setSelectedCondition(condition)"
+      ></data-insight-condition-item>
+      <button>添加条件</button>
+    </section>
+  </ng-template>
 </ng-container>
 
 <ng-container *ngIf="!isCollapsed">

@@ -90,11 +90,15 @@ export class DataInsightComponent implements OnInit {
     this.insight = new Insight({
       id: 1,
       name: '冠心病数据探索患者数据初筛',
-      conditionGroups,
+      conditionGroups: [],
     });
 
     this.setSelectedGroup(this.insight.conditionGroups[0]);
     console.log(this.conditionGroups);
+  }
+
+  public newGroup(){
+    this.insight.createGroup();
   }
 
   public setSelectedGroup(group) {
@@ -107,10 +111,6 @@ export class DataInsightComponent implements OnInit {
   public insightcopy() {
     this.insight.copyToCreateNewGroup();
   }
-  public insightlike() {
-
-  }
-  public insightdel() {
-
-  }
+  public insightlike() {}
+  public insightdel() {}
 }

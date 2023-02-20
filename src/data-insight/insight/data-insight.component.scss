@@ -99,6 +99,25 @@
     grid-auto-rows: minmax(min-content, max-content);
     row-gap: 32px;
   }
+  .condition-edit-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 10px;
+
+    width: 328px;
+    height: 128px;
+
+    /* V2: 主题色 - Primary/扩展/01 */
+
+    background: #f2f8ff;
+    /* V2: 背景、线条/border */
+
+    border: 1px solid #d0d1d2;
+    border-radius: 8px;
+  }
 }
 
 :host:not(.collapsed) {

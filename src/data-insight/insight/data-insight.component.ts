@@ -15,6 +15,7 @@ export class DataInsightComponent implements OnInit {
   public insight: Insight;
   public conditionGroups = [];
   public currentGroup;
+  public contentEditBlock: boolean;
 
   constructor() {}
 
@@ -90,14 +91,14 @@ export class DataInsightComponent implements OnInit {
     this.insight = new Insight({
       id: 1,
       name: '冠心病数据探索患者数据初筛',
-      conditionGroups: [],
+      conditionGroups,
     });
 
     this.setSelectedGroup(this.insight.conditionGroups[0]);
     console.log(this.conditionGroups);
   }
 
-  public newGroup(){
+  public newGroup() {
     this.insight.createGroup();
   }
 
@@ -113,4 +114,8 @@ export class DataInsightComponent implements OnInit {
   }
   public insightlike() {}
   public insightdel() {}
+
+  public showContentEditBlock() {
+    this.contentEditBlock = true;
+  }
 }

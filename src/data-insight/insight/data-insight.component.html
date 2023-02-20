@@ -48,18 +48,35 @@
       </div>
     </section>
     <section class="group-content">
-      <data-insight-condition-item
-        *ngFor="let condition of insight.currentGroup?.conditions"
-        class="condition-item"
-        [attr.theme]="insight.currentGroup.theme"
-        [class.selected]="
-          insight.currentCondition && insight.currentCondition === condition
-        "
-        [condition]="condition"
-        [result]="condition.result"
-        (click)="setSelectedCondition(condition)"
-      ></data-insight-condition-item>
-      <button>添加条件</button>
+      <ng-container *ngIf="!insight.currentGroup?.conditions.length">
+        <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+      </ng-container>
+      <ng-container *ngFor="let condition of insight.currentGroup?.conditions">
+        <data-insight-condition-item
+          *ngIf="!condition.editState"
+          class="condition-item"
+          [attr.theme]="insight.currentGroup.theme"
+          [class.selected]="
+            insight.currentCondition && insight.currentCondition === condition
+          "
+          [condition]="condition"
+          [result]="condition.result"
+          (click)="setSelectedCondition(condition)"
+        ></data-insight-condition-item>
+
+        <div *ngIf="condition.editState">
+          <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+        </div>
+      </ng-container>
+      <button
+        *ngIf="!!insight.currentGroup?.conditions.length && !contentEditBlock"
+        (click)="showContentEditBlock()"
+      >
+        添加条件
+      </button>
+      <ng-container *ngIf="contentEditBlock">
+        <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+      </ng-container>
     </section>
   </ng-template>
 </ng-container>
@@ -87,3 +104,13 @@
     ></data-insight-condition-group>
   </section>
 </ng-container>
+
+<ng-template #conditionEditBlock>
+  <div class="condition-edit-block">
+    <div class="search">复用</div>
+    <p class="actions">
+      <button>搜索</button>
+      <button>清空</button>
+    </p>
+  </div>
+</ng-template>

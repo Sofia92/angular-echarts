@@ -4,6 +4,7 @@ export class InsightItem {
   public result = {};
   public percentageValue: number;
   public styles = { hover: false, selected: false };
+  public editState: boolean = false;
 
   constructor(itemMeta) {
     Object.assign(this, { ...itemMeta });

@@ -40,16 +40,16 @@ export class Insight {
     );
 
     this.currentGroup.conditions.forEach((c) => {
-      // c['parent']=insightGroup;
       delete c['parent'];
 
       conditionsBak.push(JSON.parse(JSON.stringify(c)));
     });
-    insightGroup.conditions = insightGroup.conditions.map((c) => {
+    insightGroup.conditions = conditionsBak.map((c) => {
       const condition = new InsightItem(c);
       condition['parent'] = insightGroup;
       return condition;
     });
     this.conditionGroups.push(insightGroup);
+    this.setCurrentGroup(insightGroup);
   }
 }

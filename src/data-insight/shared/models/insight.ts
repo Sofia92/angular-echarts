@@ -30,4 +30,26 @@ export class Insight {
     this.currentGroup = group;
     this.currentCondition = condition;
   }
+
+  public copyToCreateNewGroup() {
+    const name = `组${this.conditionGroups.length + 1}_备份`;
+    const conditionsBak = [];
+    const insightGroup = new InsightGroup(
+      { name, conditions: conditionsBak },
+      this.conditionGroups.length - 1
+    );
+
+    this.currentGroup.conditions.forEach((c) => {
+      // c['parent']=insightGroup;
+      delete c['parent'];
+
+      conditionsBak.push(JSON.parse(JSON.stringify(c)));
+    });
+    insightGroup.conditions = insightGroup.conditions.map((c) => {
+      const condition = new InsightItem(c);
+      condition['parent'] = insightGroup;
+      return condition;
+    });
+    this.conditionGroups.push(insightGroup);
+  }
 }

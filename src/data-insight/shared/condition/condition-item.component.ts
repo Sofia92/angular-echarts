@@ -28,11 +28,12 @@ export class DataInsightConditionItem {
   get width() {
     const defaultColor = 'rgba(221, 226, 231, 0.8)';
     const blankcolor = 'rgba(240, 242, 245, 0.5)';
-    const { theme } = this.condition['parent'];
+    const { theme } = this.condition['parent'] || { theme: 'default' };
     const option = {
       first: 'rgba(219, 234, 255, 0.8)',
       second: 'rgba(230, 255, 252, 0.8)',
       third: '#FCF2DD',
+      default: 'rgba(221, 226, 231, 0.8)',
     };
     const { hover, selected } = this.condition.styles;
     const bg1 = !hover && !selected ? defaultColor : option[theme];
@@ -45,14 +46,14 @@ export class DataInsightConditionItem {
 
   @HostListener('mouseover')
   mouseover() {
-    if (!this.condition['parent'].styles.selected) {
+    if (!this.condition['parent']?.styles.selected) {
       this.condition.setHoverActive();
     }
   }
 
   @HostListener('mouseout')
   mouseout() {
-    if (!this.condition['parent'].styles.selected) {
+    if (!this.condition['parent']?.styles.selected) {
       this.condition.clearHoverActive();
     }
   }

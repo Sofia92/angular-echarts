@@ -98,13 +98,19 @@ export class DataInsightComponent implements OnInit {
   }
 
   public setSelectedGroup(group) {
-    // this.currentCondition = null;
-    // this.currentGroup?.clearActiveStyles();
-    // this.currentGroup = group;
-    // this.currentGroup.setActiveStyles();
     this.insight.setCurrentGroup(group);
   }
   public setSelectedCondition(condition) {
     this.insight.setCurrentCondition(this.insight.currentGroup, condition);
+  }
+
+  public insightcopy() {
+    this.insight.copyToCreateNewGroup();
+  }
+  public insightlike() {
+
+  }
+  public insightdel() {
+
   }
 }

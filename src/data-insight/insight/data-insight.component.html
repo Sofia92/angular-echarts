@@ -1,9 +1,76 @@
-<data-insight-condition-group
-  *ngFor="let group of conditionGroups"
-  [class.first]="group.indexAttr.first"
-  [class.second]="group.indexAttr.second"
-  [class.third]="group.indexAttr.third"
-  [class.selected]="currentGroup && currentGroup === group"
-  (click)="setSelectedGroup(group)"
-  [conditionGroup]="group"
-></data-insight-condition-group>
+<ng-container *ngIf="isCollapsed">
+  <header>
+    <div class="insight-meta">
+      <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
+        isCollapsed ? 'collapsed' : 'unCollapsed'
+      }}</i>
+      <span class="name">{{ insight?.name }}</span>
+      <span class="edit">edit</span>
+      <span class="add">add</span>
+    </div>
+    <span class="diff">diff</span>
+  </header>
+  <section class="group-meta">
+    <div class="group-wrap">
+      <span
+        *ngFor="let group of insight?.conditionGroups"
+        class="group-header"
+        [class.selected]="
+          insight.currentGroup && insight.currentGroup === group
+        "
+        (click)="setSelectedGroup(group)"
+      >
+        <i class="icon">ic</i>
+        <i class="name">{{ group.name }}</i>
+        <i
+          class="edit"
+          *ngIf="insight.currentGroup && insight.currentGroup === group"
+          >edit</i
+        ></span
+      >
+    </div>
+    <div class="action">
+      <span class="group-copy"></span>
+      <span class="group-like"></span>
+      <span class="group-del"></span>
+    </div>
+  </section>
+  <section class="group-content">
+    <data-insight-condition-item
+      *ngFor="let condition of insight.currentGroup.conditions"
+      class="condition-item"
+      [attr.theme]="insight.currentGroup.theme"
+      [class.selected]="
+        insight.currentCondition && insight.currentCondition === condition
+      "
+      [condition]="condition"
+      [result]="condition.result"
+      (click)="setSelectedCondition(condition)"
+    ></data-insight-condition-item>
+    <button>添加条件</button>
+  </section>
+</ng-container>
+
+<ng-container *ngIf="!isCollapsed">
+  <header>
+    <div class="insight-meta">
+      <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
+        isCollapsed ? 'collapsed' : 'unCollapsed'
+      }}</i>
+      <span class="name">{{ insight?.name }}</span>
+      <span class="edit">edit</span>
+      <span class="add">add</span>
+    </div>
+    <span class="diff">diff</span>
+  </header>
+  <section class="groups">
+    <data-insight-condition-group
+      *ngFor="let group of insight?.conditionGroups"
+      [attr.theme]="group.theme"
+      [class.selected]="insight.currentGroup && insight.currentGroup === group"
+      (click)="setSelectedGroup(group)"
+      [conditionGroup]="group"
+      [insight]="insight"
+    ></data-insight-condition-group>
+  </section>
+</ng-container>

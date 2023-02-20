@@ -5,10 +5,13 @@
   <data-insight-condition-item
     *ngFor="let condition of conditionGroup.conditions"
     class="condition-item"
+    [attr.theme]="conditionGroup.theme"
     [condition]="condition"
     [result]="condition.result"
-    [class.selected]="currentCondition && currentCondition === condition"
-    (click)="setSelectedCondition(condition)"
+    [class.selected]="
+      insight.currentCondition && insight.currentCondition === condition
+    "
+    (click)="setSelectedCondition(condition); $event.stopPropagation()"
   ></data-insight-condition-item>
   <button>添加条件</button>
 </section>

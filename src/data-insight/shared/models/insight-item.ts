@@ -3,6 +3,7 @@ export class InsightItem {
   public expression: string;
   public result = {};
   public percentageValue: number;
+  public styles = { hover: false, selected: false };
 
   constructor(itemMeta) {
     Object.assign(this, { ...itemMeta });
@@ -10,5 +11,20 @@ export class InsightItem {
 
   public setPercentageValue(percentageValue) {
     this.percentageValue = percentageValue;
+  }
+
+  public setActiveStyles() {
+    this.styles.hover = true;
+    this.styles.selected = true;
+  }
+  public clearActiveStyles() {
+    this.styles.hover = false;
+    this.styles.selected = false;
+  }
+  public setHoverActive() {
+    this.styles.hover = true;
+  }
+  public clearHoverActive() {
+    this.styles.hover = false;
   }
 }

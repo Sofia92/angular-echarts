@@ -4,26 +4,34 @@ export class InsightGroup {
   public id: number;
   public name: string;
   public conditions = [];
-  private groupIndex: number;
+  public theme;
+  public styles = { hover: false, selected: false };
 
   constructor(groupMeta, groupIndex: number) {
     const { id, name, conditions = [] } = groupMeta;
-    Object.assign(this, { id, name, groupIndex: groupIndex });
+    Object.assign(this, { id, name });
 
     this.conditions = conditions.map((c) => {
       const condition = new InsightItem(c);
       condition['parent'] = this;
       return condition;
     });
+    this.buildGroupTheme(groupIndex);
     this.calcConditionPercentage();
   }
 
-  public get indexAttr() {
-    return {
-      first: !this.groupIndex,
-      second: !!this.groupIndex && this.groupIndex == 1,
-      third: !!this.groupIndex && this.groupIndex == 2,
-    };
+  public buildGroupTheme(groupIndex) {
+    switch (groupIndex) {
+      case 0:
+        this.theme = 'first';
+        break;
+      case 1:
+        this.theme = 'second';
+        break;
+      case 2:
+        this.theme = 'third';
+        break;
+    }
   }
 
   public calcConditionPercentage() {
@@ -45,5 +53,24 @@ export class InsightGroup {
           c.setPercentageValue(pv);
         });
     }
+  }
+
+  public setActiveStyles() {
+    this.styles.hover = true;
+    this.styles.selected = true;
+    this.conditions.forEach((condition) => condition.setActiveStyles());
+  }
+  public clearActiveStyles() {
+    this.styles.hover = false;
+    this.styles.selected = false;
+    this.conditions.forEach((condition) => condition.clearActiveStyles());
+  }
+  public setHoverActive() {
+    this.styles.hover = true;
+    this.conditions.forEach((condition) => condition.setHoverActive());
+  }
+  public clearHoverActive() {
+    this.styles.hover = false;
+    this.conditions.forEach((condition) => condition.clearHoverActive());
   }
 }

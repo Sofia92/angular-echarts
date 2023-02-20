@@ -2,7 +2,110 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 100%;
-  column-gap: 24px;
+
+  &.collapsed {
+    width: 360px;
+
+    row-gap: 8px;
+    grid-template-rows: 44px 40px 1fr;
+
+    header {
+      height: 44px;
+      border-bottom: 1px solid #d0d1d2;
+    }
+    // section {
+    //   grid-template-columns: 100%;
+    // }
+  }
+  .group-meta {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 6px 8px;
+    gap: 10px;
+    height: 40px;
+
+    background: #ffffff;
+
+    border: 1px solid #d0d1d2;
+    border-radius: 8px;
+  }
+  .group-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+  .group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 4px;
+    font-family: 'Source Han Sans CN';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4d4d4d;
+    cursor: pointer;
+    &:not(:last-child) {
+      padding-right: 8px;
+      border-right: 1px solid #d0d1d2;
+      margin-right: 8px;
+    }
+    &.selected {
+      font-weight: 700;
+      color: #000000;
+    }
+    i {
+      font-style: normal;
+    }
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .insight-meta {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      width: 100%;
+    }
+    .name {
+      font-family: 'Source Han Sans CN';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+
+      color: #000000;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      display: inline-block;
+    }
+  }
+  .group-meta {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100%;
+    column-gap: 24px;
+  }
+  .group-content {
+    display: grid;
+    grid-auto-rows: minmax(min-content, max-content);
+    row-gap: 32px;
+  }
+}
+
+:host:not(.collapsed) {
+  row-gap: 24px;
+  .groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 24px;
+  }
 }

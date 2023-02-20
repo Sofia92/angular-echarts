@@ -34,31 +34,6 @@ $orange-3: #ffce7a;
   }
 }
 
-::ng-deep .first {
-  &.selected {
-    .condition-item .condition-result {
-      background-color: $primary-6;
-      color: #fff;
-    }
-  }
-}
-::ng-deep .second {
-  &.selected {
-    .condition-item .condition-result {
-      background-color: $cyan-6;
-      color: #fff;
-    }
-  }
-}
-::ng-deep .third {
-  &.selected {
-    .condition-item .condition-result {
-      background-color: $orange-6;
-      color: #fff;
-    }
-  }
-}
-
 .condition-group {
   padding: 0 20px 20px;
   display: grid;
@@ -82,6 +57,38 @@ $orange-3: #ffce7a;
   padding: 8px;
   display: grid;
   row-gap: 12px;
+  cursor: pointer;
+  &:hover,
+  .selected {
+    box-shadow: -6px 12px 36px rgba(77, 77, 77, 0.2);
+  }
+  &:hover {
+    &[theme='first'] .condition-result {
+      background-color: $primary-4;
+      color: #fff;
+    }
+    &[theme='second'] .condition-result {
+      background-color: $second-color-hover;
+    }
+    &[theme='third'] .condition-result {
+      background-color: $orange-3;
+    }
+  }
+
+  &.selected {
+    &[theme='first'] .condition-result {
+      background-color: $primary-6;
+      color: #fff;
+    }
+    &[theme='second'] .condition-result {
+      background-color: $cyan-6;
+      color: #fff;
+    }
+    &[theme='third'] .condition-result {
+      background-color: $orange-6;
+      color: #fff;
+    }
+  }
   &:not(:last-child)::after {
     content: '';
     background: #adadad;
@@ -98,7 +105,6 @@ $orange-3: #ffce7a;
     align-items: center;
     padding: 4px 6px;
     gap: 12px;
-    width: 304px;
     height: 28px;
     background-color: #ffffff;
     border-radius: 4px;

@@ -1,4 +1,4 @@
-export class InsightItem {
+export class InsightCondition {
   public id: number;
   public expression: string;
   public result = {};

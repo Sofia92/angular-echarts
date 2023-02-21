@@ -15,6 +15,7 @@ import {
   barOption,
   pieOption,
   pieDoughnutOption,
+  pictorialBarOption,
 } from './echart-option-getter';
 
 @Component({
@@ -44,7 +45,7 @@ export class EchartRender implements OnChanges, OnInit {
   }
   public ngOnChanges(changes: SimpleChanges) {
     const { chart, chartPieData, chartPictorialBarData } = changes;
-    if (chart) {
+    if (chart && this.chart) {
       const { config, data } = this.chart;
 
       this.myChart =
@@ -59,40 +60,10 @@ export class EchartRender implements OnChanges, OnInit {
         case 'bar':
           this.myChart.setOption(barOption(data));
           break;
+        case 'pictorialBar':
+          this.myChart.setOption(pictorialBarOption(data));
+          break;
       }
     }
-
-    // if (chartPictorialBarData) {
-    //   const r = [];
-    //   [...this.chartPictorialBarData.keys()].forEach((name) => {
-    //     r.push({
-    //       name: name,
-    //       type: 'pictorialBar',
-    //       label: labelSetting,
-    //       symbolRepeat: true,
-    //       symbolMargin: '5%',
-    //       symbolClip: true,
-    //       symbolSize: 12,
-
-    //       barGap: '14px',
-    //       barCategoryGap: '40%',
-    //       // symbolSize: ['6.21', '16'],
-    //       data: [
-    //         {
-    //           value: this.chartPictorialBarData.get(name),
-    //           symbol: pathSymbols.car,
-    //         },
-    //         {
-    //           value: this.chartPictorialBarData.get(name),
-    //           symbol: pathSymbols.car,
-    //         },
-    //       ],
-    //     });
-    //   });
-    //   console.log(r);
-    //   this.myChart.setOption(
-    //     this.pictorialBarOption(this.chartPictorialBarData, r)
-    //   );
-    // }
   }
 }

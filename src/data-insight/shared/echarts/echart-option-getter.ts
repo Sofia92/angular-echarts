@@ -1,4 +1,6 @@
-export const pieOption = (dataMap, isDoughnut?: boolean) => {
+import { labelSetting, pathSymbols } from './symbols';
+
+export const pieOption = (data, isDoughnut?: boolean) => {
   return {
     tooltip: {
       trigger: 'item',
@@ -16,20 +18,19 @@ export const pieOption = (dataMap, isDoughnut?: boolean) => {
         fontStyle: 'normal',
         fontWeight: 400,
       },
-      formatter: (name) => {
-        const str = `<span><i>${name}</i><i>${
-          dataMap?.get(name).value
-        } 份</i></span>`;
-        return str;
-      },
+      // formatter: (name) => {
+      //   const str = `<span><i>${name}</i><i>${
+      //     dataMap?.get(name).value
+      //   } 份</i></span>`;
+      //   return str;
+      // },
     },
     series: (() => {
-      const data = [...dataMap.values()];
       return data.map((d) => {
         return {
           type: 'pie',
           name: data.length > 1 ? d.name : '',
-          radius: isDoughnut ? ['30%', '50%'] : '50%',
+          radius: isDoughnut ? ['50%', '80%'] : '80%',
           data,
           emphasis: {
             itemStyle: {
@@ -43,13 +44,13 @@ export const pieOption = (dataMap, isDoughnut?: boolean) => {
     })(),
   };
 };
-export const pieDoughnutOption = (dataMap) => pieOption(dataMap, true);
+export const pieDoughnutOption = (data) => pieOption(data, true);
 
-export const pictorialBarOption = (dataMap, series) => {
+export const pictorialBarOption = (data) => {
   return {
-    legend: {
-      data: [...dataMap.keys()],
-    },
+    // legend: {
+    //   data: [...dataMap.keys()],
+    // },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -62,7 +63,7 @@ export const pictorialBarOption = (dataMap, series) => {
       right: 80,
     },
     yAxis: {
-      data: ['治愈', '未愈'],
+      data: data.map((d) => d.name),
       inverse: true,
       axisLine: { show: false },
       axisTick: { show: false },
@@ -83,26 +84,18 @@ export const pictorialBarOption = (dataMap, series) => {
       axisTick: { show: false },
       axisLine: { show: false },
     },
-    series,
-    // series: () => {
-    //   const r = [];
-    //   [...dataMap.keys()].forEach((name) => {
-    //     r.push({
-    //       name: name,
-    //       type: 'pictorialBar',
-    //       label: labelSetting,
-    //       symbolRepeat: true,
-    //       symbolSize: ['6.21', '16'],
-    //       data: [
-    //         {
-    //           value: dataMap.get(name),
-    //           symbol: pathSymbols.car
-    //         },
-    //       ],
-    //     });
-    //   });
-    //   return r;
-    // },
+    series: (() => {
+      return [
+        {
+          name: name,
+          type: 'pictorialBar',
+          label: labelSetting,
+          symbolRepeat: true,
+          symbolSize: ['6.21', '16'],
+          data: data.map((d) => ({ value: d.value, symbol: pathSymbols.car })),
+        },
+      ];
+    })(),
   };
 };
 
@@ -110,18 +103,16 @@ export const barOption = (data) => {
   return {
     xAxis: {
       type: 'category',
-      data: data[0].groupData.map((d) => d.name),
+      data: data.map((d) => d.name),
     },
     yAxis: {
       type: 'value',
     },
     series: (() => {
-      return data.map((d) => {
-        return {
-          type: 'bar',
-          data: d.groupData.map((d) => d.value),
-        };
-      });
+      return {
+        type: 'bar',
+        data: data.map((d) => d.value),
+      };
     })(),
   };
 };

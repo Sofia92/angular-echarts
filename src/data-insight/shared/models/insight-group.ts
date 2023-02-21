@@ -1,4 +1,4 @@
-import { InsightItem } from './insight-item';
+import { InsightCondition } from './insight-condition';
 
 export class InsightGroup {
   public id: number;
@@ -12,7 +12,7 @@ export class InsightGroup {
     Object.assign(this, { id, name });
 
     this.conditions = conditions.map((c) => {
-      const condition = new InsightItem(c);
+      const condition = new InsightCondition(c);
       condition['parent'] = this;
       return condition;
     });

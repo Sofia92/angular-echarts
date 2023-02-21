@@ -6,7 +6,7 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { InsightItem } from '../models/insight-item';
+import { InsightCondition } from '../models/insight-condition';
 
 @Component({
   selector: 'data-insight-condition-item',
@@ -19,7 +19,7 @@ import { InsightItem } from '../models/insight-item';
   },
 })
 export class DataInsightConditionItem {
-  @Input() condition: InsightItem;
+  @Input() condition: InsightCondition;
   @Input() result: { people: number; emr: number };
 
   constructor(private _elf: ElementRef) {}

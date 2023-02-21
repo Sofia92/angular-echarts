@@ -1,12 +1,12 @@
 import { InsightGroup } from './insight-group';
-import { InsightItem } from './insight-item';
+import { InsightCondition } from './insight-condition';
 
 export class Insight {
   public id;
   public name;
   public conditionGroups: InsightGroup[] = [];
   public currentGroup: InsightGroup;
-  public currentCondition: InsightItem;
+  public currentCondition: InsightCondition;
 
   constructor(insightMeta) {
     const { id, name, conditionGroups = [] } = insightMeta;
@@ -33,7 +33,7 @@ export class Insight {
     }
   }
 
-  public setCurrentCondition(group: InsightGroup, condition: InsightItem) {
+  public setCurrentCondition(group: InsightGroup, condition: InsightCondition) {
     this.currentGroup = group;
     this.currentCondition = condition;
   }
@@ -52,7 +52,7 @@ export class Insight {
       conditionsBak.push(JSON.parse(JSON.stringify(c)));
     });
     insightGroup.conditions = conditionsBak.map((c) => {
-      const condition = new InsightItem(c);
+      const condition = new InsightCondition(c);
       condition['parent'] = insightGroup;
       return condition;
     });

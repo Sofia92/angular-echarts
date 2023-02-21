@@ -3,47 +3,74 @@
     <header>概览</header>
 
     <div class="report-person-panel">
-      <span>病历数</span>
-      <span>患者人数</span>
-      <strong>{{ chartData.summary.data.get('病历').value }}</strong>
-      <strong>{{ chartData.summary.data.get('患者').value }}</strong>
-      <bc-echart-render [chart]="chartData.summary"></bc-echart-render>
+      <ng-container *ngIf="summaryChart; else loadingSkeleton">
+        <span>病历数</span>
+        <span>患者人数</span>
+        <strong>{{ summaryChart.summary.data[0].value }}</strong>
+        <strong>{{ summaryChart.summary.data[1].value }}</strong>
+        <bc-echart-render [chart]="summaryChart.summary"></bc-echart-render>
+      </ng-container>
     </div>
 
     <div class="summary-panel">
       <header>性别</header>
-      <bc-echart-render [chart]="chartData.sex"></bc-echart-render>
+      <bc-echart-render [chart]="summaryChart?.sex"></bc-echart-render>
     </div>
     <div class="summary-panel">
       <header>年龄</header>
-      <bc-echart-render [chart]="chartData.age"></bc-echart-render>
+      <bc-echart-render [chart]="summaryChart?.age"></bc-echart-render>
     </div>
   </div>
-  <div class="epbox treat-top">
-    <header>诊断</header>
-    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
-  </div>
-  <div class="epbox treat-top">
+  <div class="epbox">
     <header>诊断TOP10</header>
-    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+    <div class="diagnose-group">
+      <div class="diagnose" *ngFor="let diagnose of diagnoses">
+        <p class="title">{{ diagnose.name }}</p>
+        <p>
+          <span class="progress">
+            <progress max="100" [value]="diagnose.percentage">
+              {{ diagnose.percentage }}
+            </progress></span
+          >
+          <span class="desc">{{ diagnose.value }}人</span>
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="epbox treat-top">
+  <div class="epbox treatment">
     <header>治疗情况</header>
-    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
-  </div>
-  <div class="epbox treat-top">
     <header>治疗情况TOP10</header>
-    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
+
+    <ng-container *ngIf="treatments; else loadingSkeleton">
+      <bc-echart-render [chart]="treatments?.percentage"></bc-echart-render>
+      <div class="treatment-group">
+        <div class="treatment" *ngFor="let treatmentType of treatments?.detail">
+          <p class="title">{{ treatmentType.name }}</p>
+
+          <div class="diagnose-group">
+            <div class="diagnose" *ngFor="let treatment of treatmentType.data">
+              <p class="title">{{ treatment.name }}</p>
+              <p>
+                <span class="progress">
+                  <progress max="100" [value]="treatment.percentage">
+                    {{ treatment.percentage }}
+                  </progress></span
+                >
+                <span class="desc">{{ treatment.value }}人</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-  <div class="epbox result-summary">
+
+  <div class="epbox outcome">
     <header>结局情况</header>
-    <bc-echart-render [chartPieData]="chartPieData"></bc-echart-render>
-  </div>
-  <div class="epbox result-top">
-    <header>具体结局分布情况</header>
-    <bc-echart-render
-      [chartPictorialBarData]="chartPictorialBarData"
-    ></bc-echart-render>
+    <section *ngIf="outcome; else loadingSkeleton">
+      <bc-echart-render [chart]="outcome.pieData"></bc-echart-render>
+      <bc-echart-render [chart]="outcome.pictorialBar"></bc-echart-render>
+    </section>
   </div>
 </aside>
 <aside></aside>
@@ -81,3 +108,5 @@
 <aside>
 
 </aside> -->
+
+<ng-template #loadingSkeleton> 加载中。。。 </ng-template>

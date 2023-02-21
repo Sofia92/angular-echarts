@@ -1,109 +1,190 @@
-<ng-container *ngIf="isCollapsed">
-  <header>
-    <div class="insight-meta">
-      <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
-        isCollapsed ? 'collapsed' : 'unCollapsed'
-      }}</i>
-      <span class="name">{{ insight?.name }}</span>
-      <span class="edit">edit</span>
-      <span class="add">add</span>
-    </div>
-    <span class="diff">diff</span>
-  </header>
+<aside class="left">
+  <div class="epbox insight-summary">
+    <header>概览</header>
 
-  <ng-container *ngIf="!insight.conditionGroups.length; else groupTPL">
-    <div>
-      <button (click)="newGroup()">新增组</button>
-      <button>我的收藏</button>
-      <p>
-        <small>不知道如何使用？</small>
-        <a>查看帮助</a>
-      </p>
-    </div>
-  </ng-container>
-  <ng-template #groupTPL>
-    <section class="group-meta">
-      <div class="group-wrap">
-        <span
-          *ngFor="let group of insight?.conditionGroups"
-          class="group-header"
-          [class.selected]="
-            insight.currentGroup && insight.currentGroup === group
-          "
-          (click)="setSelectedGroup(group)"
-        >
-          <i class="icon">ic</i>
-          <i class="name">{{ group.name }}</i>
-          <i
-            class="edit"
-            *ngIf="insight.currentGroup && insight.currentGroup === group"
-            >edit</i
-          ></span
-        >
-      </div>
-      <div class="action">
-        <span class="group-copy" (click)="insightcopy()">copy</span>
-        <span class="group-like" (click)="insightlike()">like</span>
-        <span class="group-del" (click)="insightdel()">del</span>
-      </div>
-    </section>
-    <section class="group-content">
-      <ng-container *ngIf="!insight.currentGroup?.conditions.length">
-        <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+    <div class="report-person-panel">
+      <ng-container *ngIf="summaryChart; else loadingSkeleton">
+        <span>病历数</span>
+        <span>患者人数</span>
+        <strong>{{ summaryChart.summary.data[0].value }}</strong>
+        <strong>{{ summaryChart.summary.data[1].value }}</strong>
+        <bc-echart-render [chart]="summaryChart.summary"></bc-echart-render>
       </ng-container>
-      <ng-container *ngFor="let condition of insight.currentGroup?.conditions">
-        <data-insight-condition-item
-          *ngIf="!condition.editState"
-          class="condition-item"
-          [attr.theme]="insight.currentGroup.theme"
-          [class.selected]="
-            insight.currentCondition && insight.currentCondition === condition
-          "
-          [condition]="condition"
-          [result]="condition.result"
-          (click)="setSelectedCondition(condition)"
-        ></data-insight-condition-item>
+    </div>
 
-        <div *ngIf="condition.editState">
-          <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+    <div class="summary-panel">
+      <header>性别</header>
+      <bc-echart-render [chart]="summaryChart?.sex"></bc-echart-render>
+    </div>
+    <div class="summary-panel">
+      <header>年龄</header>
+      <bc-echart-render [chart]="summaryChart?.age"></bc-echart-render>
+    </div>
+  </div>
+  <div class="epbox">
+    <header>诊断TOP10</header>
+    <div class="diagnose-group">
+      <div class="diagnose" *ngFor="let diagnose of diagnoses">
+        <p class="title">{{ diagnose.name }}</p>
+        <p>
+          <span class="progress">
+            <progress max="100" [value]="diagnose.percentage">
+              {{ diagnose.percentage }}
+            </progress></span
+          >
+          <span class="desc">{{ diagnose.value }}人</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="epbox treatment">
+    <header>治疗情况</header>
+    <header>治疗情况TOP10</header>
+
+    <ng-container *ngIf="treatments; else loadingSkeleton">
+      <bc-echart-render [chart]="treatments?.percentage"></bc-echart-render>
+      <div class="treatment-group">
+        <div class="treatment" *ngFor="let treatmentType of treatments?.detail">
+          <p class="title">{{ treatmentType.name }}</p>
+
+          <div class="diagnose-group">
+            <div class="diagnose" *ngFor="let treatment of treatmentType.data">
+              <p class="title">{{ treatment.name }}</p>
+              <p>
+                <span class="progress">
+                  <progress max="100" [value]="treatment.percentage">
+                    {{ treatment.percentage }}
+                  </progress></span
+                >
+                <span class="desc">{{ treatment.value }}人</span>
+              </p>
+            </div>
+          </div>
         </div>
-      </ng-container>
-      <button
-        *ngIf="!!insight.currentGroup?.conditions.length && !contentEditBlock"
-        (click)="showContentEditBlock()"
-      >
-        添加条件
-      </button>
-      <ng-container *ngIf="contentEditBlock">
-        <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
-      </ng-container>
-    </section>
-  </ng-template>
-</ng-container>
+      </div>
+    </ng-container>
+  </div>
 
-<ng-container *ngIf="!isCollapsed">
-  <header>
-    <div class="insight-meta">
-      <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
-        isCollapsed ? 'collapsed' : 'unCollapsed'
-      }}</i>
-      <span class="name">{{ insight?.name }}</span>
-      <span class="edit">edit</span>
-      <span class="add">add</span>
-    </div>
-    <span class="diff">diff</span>
-  </header>
-  <section class="groups">
-    <data-insight-condition-group
-      *ngFor="let group of insight?.conditionGroups"
-      [attr.theme]="group.theme"
-      [class.selected]="insight.currentGroup && insight.currentGroup === group"
-      (click)="setSelectedGroup(group)"
-      [conditionGroup]="group"
-      [insight]="insight"
-    ></data-insight-condition-group>
-  </section>
-</ng-container>
+  <div class="epbox outcome">
+    <header>结局情况</header>
+    <section *ngIf="outcome; else loadingSkeleton">
+      <bc-echart-render [chart]="outcome.pieData"></bc-echart-render>
+      <bc-echart-render [chart]="outcome.pictorialBar"></bc-echart-render>
+    </section>
+  </div>
+</aside>
+<aside>
+  <ng-container *ngIf="isCollapsed">
+    <header>
+      <div class="insight-meta">
+        <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
+          isCollapsed ? 'collapsed' : 'unCollapsed'
+        }}</i>
+        <span class="name">{{ insight?.name }}</span>
+        <span class="edit">edit</span>
+        <span class="add">add</span>
+      </div>
+      <span class="diff">diff</span>
+    </header>
+
+    <ng-container *ngIf="!insight.conditionGroups.length; else groupTPL">
+      <div>
+        <button (click)="newGroup()">新增组</button>
+        <button>我的收藏</button>
+        <p>
+          <small>不知道如何使用？</small>
+          <a>查看帮助</a>
+        </p>
+      </div>
+    </ng-container>
+    <ng-template #groupTPL>
+      <section class="group-meta">
+        <div class="group-wrap">
+          <span
+            *ngFor="let group of insight?.conditionGroups"
+            class="group-header"
+            [class.selected]="
+              insight.currentGroup && insight.currentGroup === group
+            "
+            (click)="setSelectedGroup(group)"
+          >
+            <i class="icon">ic</i>
+            <i class="name">{{ group.name }}</i>
+            <i
+              class="edit"
+              *ngIf="insight.currentGroup && insight.currentGroup === group"
+              >edit</i
+            ></span
+          >
+        </div>
+        <div class="action">
+          <span class="group-copy" (click)="insightcopy()">copy</span>
+          <span class="group-like" (click)="insightlike()">like</span>
+          <span class="group-del" (click)="insightdel()">del</span>
+        </div>
+      </section>
+      <section class="group-content">
+        <ng-container *ngIf="!insight.currentGroup?.conditions.length">
+          <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+        </ng-container>
+        <ng-container
+          *ngFor="let condition of insight.currentGroup?.conditions"
+        >
+          <data-insight-condition-item
+            *ngIf="!condition.editState"
+            class="condition-item"
+            [attr.theme]="insight.currentGroup.theme"
+            [class.selected]="
+              insight.currentCondition && insight.currentCondition === condition
+            "
+            [condition]="condition"
+            [result]="condition.result"
+            (click)="setSelectedCondition(condition)"
+          ></data-insight-condition-item>
+
+          <div *ngIf="condition.editState">
+            <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+          </div>
+        </ng-container>
+        <button
+          *ngIf="!!insight.currentGroup?.conditions.length && !contentEditBlock"
+          (click)="showContentEditBlock()"
+        >
+          添加条件
+        </button>
+        <ng-container *ngIf="contentEditBlock">
+          <ng-container *ngTemplateOutlet="conditionEditBlock"></ng-container>
+        </ng-container>
+      </section>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="!isCollapsed">
+    <header>
+      <div class="insight-meta">
+        <i class="trigger" (click)="isCollapsed = !isCollapsed">{{
+          isCollapsed ? 'collapsed' : 'unCollapsed'
+        }}</i>
+        <span class="name">{{ insight?.name }}</span>
+        <span class="edit">edit</span>
+        <span class="add">add</span>
+      </div>
+      <span class="diff">diff</span>
+    </header>
+    <section class="groups">
+      <data-insight-condition-group
+        *ngFor="let group of insight?.conditionGroups"
+        [attr.theme]="group.theme"
+        [class.selected]="
+          insight.currentGroup && insight.currentGroup === group
+        "
+        (click)="setSelectedGroup(group)"
+        [conditionGroup]="group"
+        [insight]="insight"
+      ></data-insight-condition-group>
+    </section>
+  </ng-container>
+</aside>
 
 <ng-template #conditionEditBlock>
   <div class="condition-edit-block">
@@ -114,3 +195,5 @@
     </p>
   </div>
 </ng-template>
+
+<ng-template #loadingSkeleton> 加载中。。。 </ng-template>

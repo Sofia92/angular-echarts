@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { InsightGroup } from '../shared/models';
 import { Insight } from '../shared/models/insight';
+import {
+  DataInsightService,
+  ISummaryDiagnose,
+  ITreatment,
+} from '../shared/services';
 
 @Component({
   selector: 'data-insight',
@@ -16,10 +20,14 @@ export class DataInsightComponent implements OnInit {
   public conditionGroups = [];
   public currentGroup;
   public contentEditBlock: boolean;
+  public summaryChart;
+  public diagnoses: ISummaryDiagnose[];
+  public treatments: ITreatment;
+  public outcome;
 
-  constructor() {}
+  constructor(private _dataInsightService: DataInsightService) {}
 
-  public ngOnInit() {
+  public async ngOnInit() {
     const conditionGroups = [
       {
         id: 1,
@@ -96,6 +104,10 @@ export class DataInsightComponent implements OnInit {
 
     this.setSelectedGroup(this.insight.conditionGroups[0]);
     console.log(this.conditionGroups);
+    this.summaryChart = await this._dataInsightService.getHospitalSummary();
+    this.diagnoses = await this._dataInsightService.getHospitalDiagnose();
+    this.treatments = await this._dataInsightService.getHospitalTreatments();
+    this.outcome = await this._dataInsightService.getHospitalOutcome();
   }
 
   public newGroup() {
